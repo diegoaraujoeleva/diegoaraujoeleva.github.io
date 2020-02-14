@@ -8,7 +8,7 @@ function obterDadosBarra() {
       }
     };
 
-    xhttp.open("GET", "http://demo5124476.mockable.io/reacaoAvaliacao", true);
+    xhttp.open("GET", "https://demo5124476.mockable.io/reacaoAvaliacao", true);
     xhttp.send();
   }
 
@@ -21,7 +21,7 @@ function obterDadosBarra() {
       }
     };
 
-    xhttp.open("GET", "http://demo5124476.mockable.io/reacaoQuestao", true);
+    xhttp.open("GET", "https://demo5124476.mockable.io/reacaoQuestao", true);
     xhttp.send();
   }
 
@@ -35,7 +35,7 @@ function obterDadosBarra() {
       }
     };
 
-    xhttp.open("GET", "http://demo5124476.mockable.io/reacaoAvaliacaoPorMateria", true);
+    xhttp.open("GET", "https://demo5124476.mockable.io/reacaoAvaliacaoPorMateria", true);
     xhttp.send();
   }
 
@@ -48,7 +48,7 @@ function obterDadosBarra() {
       }
     };
 
-    xhttp.open("GET", "http://demo5124476.mockable.io/alunosReacoes", true);
+    xhttp.open("GET", "https://demo5124476.mockable.io/alunosReacoes", true);
     xhttp.send();
   }
 
@@ -61,7 +61,7 @@ function obterDadosBarra() {
       }
     };
 
-    xhttp.open("GET", "http://demo5124476.mockable.io/emojiQuestoesAvaliacoes", true);
+    xhttp.open("GET", "https://demo5124476.mockable.io/emojiQuestoesAvaliacoes", true);
     xhttp.send();
   }
 
@@ -74,7 +74,7 @@ function obterDadosBarra() {
       }
     };
 
-    xhttp.open("GET", "http://demo5124476.mockable.io/alunosReacoes", true);
+    xhttp.open("GET", "https://demo5124476.mockable.io/alunosReacoes", true);
     xhttp.send();
   }
 
@@ -88,7 +88,7 @@ function obterDadosBarra() {
       }
     };
 
-    xhttp.open("GET", "http://demo5124476.mockable.io/notaPorAvaliacao", true);
+    xhttp.open("GET", "https://demo5124476.mockable.io/notaPorAvaliacao", true);
     xhttp.send();
     
   }
@@ -103,7 +103,7 @@ function obterDadosBarra() {
       }
     };
 
-    xhttp.open("GET", "http://demo5124476.mockable.io/mediaNotaPorReacao", true);
+    xhttp.open("GET", "https://demo5124476.mockable.io/mediaNotaPorReacao", true);
     xhttp.send();
   }
 
@@ -116,7 +116,7 @@ function obterDadosBarra() {
       }
     };
 
-    xhttp.open("GET", "http://demo5124476.mockable.io/mediaNotaPorDificuldade", true);
+    xhttp.open("GET", "https://demo5124476.mockable.io/mediaNotaPorDificuldade", true);
     xhttp.send();
   }
 
@@ -129,7 +129,7 @@ function obterDadosBarra() {
         carregarGraficoLinha(obj);
       }
     };
-    xhttp.open("GET", "http://demo5124476.mockable.io/dificuldadeSimulado", true);
+    xhttp.open("GET", "https://demo5124476.mockable.io/dificuldadeSimulado", true);
     xhttp.send();
   }
 
@@ -1033,7 +1033,7 @@ function carregarGraficoDoughnut(obj) {
       }
     };
 
-    xhttp.open("GET", "http://demo5124476.mockable.io/reacaoAvaliacao", true);
+    xhttp.open("GET", "https://demo5124476.mockable.io/reacaoAvaliacao", true);
     xhttp.send();
   }
 
