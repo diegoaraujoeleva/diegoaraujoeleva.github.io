@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>PréPoc - Squad de Avaliações - Eleva Educação</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" ></script>
+    <script src="js/Chart.min.js"></script>
+    <script src="js/chartjs-plugin-datalabels.min.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/graficos.js"></script>
+</head>
+<body>
+  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-secondary">
+    <a class="navbar-brand" href="#">Eleva Educação</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <a class="nav-link" href="#linkgGraficoBarra">Gráfico Barra</a>
+          </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#linkGraficoBolha">Gráfico Bolha</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#linkGraficoDoughnut">Gráfico Doughnut</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#linkGraficoPizza">Gráfico Pizza</a>
+          </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#linkGraficoRadar">Gráfico Radar</a>
+        </li>
+        <li>
+            <a href="#linkGraficoLinha" class="nav-link">Gráfico Linha</a>
+        </li>
+        <li><a href="#linkGraficoPolar" class="nav-link">Gráfico Polar</a></li>
+      </ul>
+      <div class="my-2"><span class="text-light">Prova de Conceito - POC</span></div>
+    </div>
+  </nav>
+      <main>
+    <div class="container">
+        <div class="row">
+            <div id="linkgGraficoBarra" class="col-md-12" style="padding-top: 10%;" >
+                <h3>Gráficos em Barra na Vertical</h3> <h4>Reagindo a cada Avaliação do Simulado</h4>
+                <canvas id="graficoBarra" class="col-md-12"></canvas>
+            </div>
+
+            <div  class="col-md-12" style="padding-top: 10%;" >
+              <h3>Gráficos em Barra na Vertical</h3> <h4>Reações dos alunos às questões</h4>
+              <canvas id="graficoBarraReacoes" class="col-md-12"></canvas>
+            </div>
+
+            <div class="col-md-12" style="padding-top: 8%;" >
+              <h3>Gráficos em Barra na Vertical</h3> 
+              <h4>Reagindo a cada Avaliação do Simulado, com as avaliações como conjunto de dados</h4>
+              <canvas id="graficoBarraPorAvaliacao" class="col-md-12"></canvas>
+            </div>
+
+            <div id="linkGraficoBarraHorizontal" class="col-md-12" style="padding-top: 10%;">
+                <h3>Gráfico em Barra</h3> <h4>Dificuldade do Simulado visto por Redes</h4>
+                <canvas id="graficoBarraHorizontal" class="col-md-12"></canvas>
+            </div>
+
+            <div id="linkGraficoMisto" class="col-md-12" style="padding-top: 10%;">
+              <h3>Gráfico Misto</h3> <h4>Reações as provas com a média das notas</h4>
+              <canvas id="graficoMistoPorNota" class="col-md-12"></canvas>
+          </div>
+
+          <div id="linkGraficoBolha" class="col-md-12" style="padding-top: 10%;">
+            <h3>Gráfico Bolha</h3> <h4>Reações as provas com a média das notas</h4>
+            <canvas id="graficoBolha" class="col-md-12"></canvas>
+          </div>
+
+          <div class="col-md-12" style="padding-top: 10%;">
+            <h3>Gráfico Bolha</h3> <h4>Nota média nas Provas e quantidade de dificuldades</h4>
+            <canvas id="graficoBolhaDificuldade" class="col-md-12"></canvas>
+          </div>
+
+            <div id="linkGraficoDoughnut" class="col-md-12" style="padding-top: 10%;">
+                <h3>Gráfico Doughnut</h3> <h4>Reações nas Provas</h4>
+                <canvas id="graficoDoughnut" class="col-md-12"></canvas>
+            </div>
+
+            <div id="linkGraficoPizza" class="col-md-12" style="padding-top: 10%;">
+                <h3>Gráfico Pizza</h3> <h4>Reações nas Provas</h4>
+                <canvas id="graficoPizza" class="col-md-12"></canvas>
+            </div>
+
+            <div id="linkGraficoRadar" class="col-md-12" style="padding-top: 10%;">
+                <h3>Gráfico Radar</h3> <h4>Reações nas avaliações</h4>
+                <canvas id="graficoRadar" class="col-md-12"></canvas>
+            </div>
+
+            <div id="linkGraficoLinha" class="col-md-12" style="padding-top: 10%;">
+                <h3>Gráfico Linha</h3> <h4>Reações aos Simulados por Rede</h4>
+                <canvas id="graficoLinha" class="col-md-12"></canvas>
+            </div>
+
+            <div  class="col-md-12" style="padding-top: 10%;">
+              <h3>Gráfico Linha</h3> <h4>Reações da questão com o número de acertos</h4>
+              <canvas id="graficoScatter" class="col-md-12"></canvas>
+          </div>
+
+          <div  class="col-md-12" style="padding-top: 10%;">
+            <h3>Gráfico Linha</h3> <h4>Reações das questões por avaliação</h4>
+            <canvas id="graficoLinhaEmoji" class="col-md-12"></canvas>
+          </div>            
+
+            <div id="linkGraficoPolar" class="col-md-12" style="padding-top: 10%; padding-bottom: 15%;">
+                <h3>Gráfico polar</h3> <h4>Visão geral das Reações de todos os alunos</h4>
+                <canvas id="graficoPolar" class="col-md-12"></canvas>
+            </div>
+            <div></div>
+        </div>
+    </div>
+    <script>
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            obj = JSON.parse(this.responseText);
+
+            obterDadosBarraHorizontal();
+            obterDadosBarra();
+            obterDadosBarraReacoes();
+            carregarGraficoDoughnut(obj);
+            carregarGraficoPizza(obj);
+            obterDadosRadar();
+            obterDadosPolar();
+            obterDadosBarraPorAvaliacao();
+            obterNotasPorAvaliacao();
+            obterMediaNotasPorReacao();
+            obterMediaNotasPorDificuldade();
+            obterDadosScatter();
+            obterDadosGraficoLinhaEmoji();
+          }
+        };
+        xhttp.open("GET", "http://demo5124476.mockable.io/reacaoSimulado", true);
+        xhttp.send();
+      </script>
+      </main>
+    </body>
+</html>
