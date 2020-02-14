@@ -185,7 +185,7 @@ function obterDadosBarra() {
     legend:{
       display: true,
       labels:{
-        fontSize: 25
+        fontSize: 15
       }
     },
     tooltips:{
