@@ -1,150 +1,2680 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Eleva Educação - Avaliações</title>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" ></script>
-    <script src="js/Chart.min.js"></script>
-    <script src="js/chartjs-plugin-datalabels.min.js"></script>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/graficos.js"></script>
-</head>
-<body>
-  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-secondary">
-    <a class="navbar-brand" href="#">Eleva Avaliações POC</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+<!doctype html>
+<html>
+  <head>
+    <title>Fiscal Digital API</title>
+    <style type="text/css">
+      body {
+      	font-family: Trebuchet MS, sans-serif;
+      	font-size: 15px;
+      	color: #444;
+      	margin-right: 24px;
+      }
+      
+      h1	{
+      	font-size: 25px;
+      }
+      h2	{
+      	font-size: 20px;
+      }
+      h3	{
+      	font-size: 16px;
+      	font-weight: bold;
+      }
+      hr	{
+      	height: 1px;
+      	border: 0;
+      	color: #ddd;
+      	background-color: #ddd;
+      }
+      
+      .app-desc {
+        clear: both;
+        margin-left: 20px;
+      }
+      .param-name {
+        width: 100%;
+      }
+      .license-info {
+        margin-left: 20px;
+      }
+      
+      .license-url {
+        margin-left: 20px;
+      }
+      
+      .model {
+        margin: 0 0 0px 20px;
+      }
+      
+      .method {
+        margin-left: 20px;
+      }
+      
+      .method-notes	{
+      	margin: 10px 0 20px 0;
+      	font-size: 90%;
+      	color: #555;
+      }
+      
+      pre {
+        padding: 10px;
+        margin-bottom: 2px;
+      }
+      
+      .http-method {
+       text-transform: uppercase;
+      }
+      
+      pre.get {
+        background-color: #0f6ab4;
+      }
+      
+      pre.post {
+        background-color: #10a54a;
+      }
+      
+      pre.put {
+        background-color: #c5862b;
+      }
+      
+      pre.delete {
+        background-color: #a41e22;
+      }
+      
+      .huge	{
+      	color: #fff;
+      }
+      
+      pre.example {
+        background-color: #f3f3f3;
+        padding: 10px;
+        border: 1px solid #ddd;
+      }
+      
+      code {
+        white-space: pre;
+      }
+      
+      .nickname {
+        font-weight: bold;
+      }
+      
+      .method-path {
+        font-size: 1.5em;
+        background-color: #0f6ab4;
+      }
+      
+      .up {
+        float:right;
+      }
+      
+      .parameter {
+        width: 500px;
+      }
+      
+      .param {
+        width: 500px;
+        padding: 10px 0 0 20px;
+        font-weight: bold;
+      }
+      
+      .param-desc {
+        width: 700px;
+        padding: 0 0 0 20px;
+        color: #777;
+      }
+      
+      .param-type {
+        font-style: italic;
+      }
+      
+      .param-enum-header {
+      width: 700px;
+      padding: 0 0 0 60px;
+      color: #777;
+      font-weight: bold;
+      }
+      
+      .param-enum {
+      width: 700px;
+      padding: 0 0 0 80px;
+      color: #777;
+      font-style: italic;
+      }
+      
+      .field-label {
+        padding: 0;
+        margin: 0;
+        clear: both;
+      }
+      
+      .field-items	{
+      	padding: 0 0 15px 0;
+      	margin-bottom: 15px;
+      }
+      
+      .return-type {
+        clear: both;
+        padding-bottom: 10px;
+      }
+      
+      .param-header {
+        font-weight: bold;
+      }
+      
+      .method-tags {
+        text-align: right;
+      }
+      
+      .method-tag {
+        background: none repeat scroll 0% 0% #24A600;
+        border-radius: 3px;
+        padding: 2px 10px;
+        margin: 2px;
+        color: #FFF;
+        display: inline-block;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+  <h1>Fiscal Digital API</h1>
+    <div class="app-desc">Documentação da API do Fiscal Digital.</div>
+    <div class="app-desc">More information: <a href="https://helloreverb.com">https://helloreverb.com</a></div>
+    <div class="app-desc">Contact Info: <a href="hello@helloreverb.com">hello@helloreverb.com</a></div>
+    <div class="app-desc">Version: 1.0</div>
+    
+    <div class="license-info">All rights reserved</div>
+    <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
+  <h2>Access</h2>
+    <ol>
+      <li>APIKey KeyParamName:x-api-key KeyInQuery:false KeyInHeader:true</li>
+    </ol>
 
-    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-            <a class="nav-link" href="#linkgGraficoBarra">Gráfico Barra</a>
-          </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#linkGraficoBolha">Gráfico Bolha</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#linkGraficoDoughnut">Gráfico Doughnut</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#linkGraficoPizza">Gráfico Pizza</a>
-          </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#linkGraficoRadar">Gráfico Radar</a>
-        </li>
-        <li>
-            <a href="#linkGraficoLinha" class="nav-link">Gráfico Linha</a>
-        </li>
-        <li><a href="#linkGraficoPolar" class="nav-link">Gráfico Polar</a></li>
-      </ul>
-      <div class="my-2"><span class="text-light">Prova de Conceito - POC</span></div>
-    </div>
-  </nav>
-      <main>
-    <div class="container">
-        <div class="row">
-            <div id="linkgGraficoBarra" class="col-md-12" style="padding-top: 10%;" >
-                <h3>Gráficos em Barra na Vertical</h3> <h4>Reagindo a cada Avaliação do Simulado</h4>
-                <canvas id="graficoBarra" class="col-md-12"></canvas>
-            </div>
+  <h2><a name="__Methods">Methods</a></h2>
+  [ Jump to <a href="#__Models">Models</a> ]
 
-            <div  class="col-md-12" style="padding-top: 10%;" >
-              <h3>Gráficos em Barra na Vertical</h3> <h4>Reações dos alunos às questões</h4>
-              <canvas id="graficoBarraReacoes" class="col-md-12"></canvas>
-            </div>
+  <h3>Table of Contents </h3>
+  <div class="method-summary"></div>
+  <h4><a href="#Aluno">Aluno</a></h4>
+  <ul>
+  <li><a href="#apiV1AlunoGet"><code><span class="http-method">get</span> /api/v1/aluno</code></a></li>
+  <li><a href="#apiV1AlunoMatriculaGet"><code><span class="http-method">get</span> /api/v1/aluno/matricula</code></a></li>
+  <li><a href="#apiV1AlunoMatriculaOptions"><code><span class="http-method">options</span> /api/v1/aluno/matricula</code></a></li>
+  <li><a href="#apiV1AlunoOptions"><code><span class="http-method">options</span> /api/v1/aluno</code></a></li>
+  <li><a href="#apiV1AlunoSaveOptions"><code><span class="http-method">options</span> /api/v1/aluno/save</code></a></li>
+  <li><a href="#apiV1AlunoSavePost"><code><span class="http-method">post</span> /api/v1/aluno/save</code></a></li>
+  </ul>
+  <h4><a href="#AlunoProva">AlunoProva</a></h4>
+  <ul>
+  <li><a href="#apiV1AlunoprovaOptions"><code><span class="http-method">options</span> /api/v1/alunoprova</code></a></li>
+  <li><a href="#apiV1AlunoprovaPost"><code><span class="http-method">post</span> /api/v1/alunoprova</code></a></li>
+  <li><a href="#apiV1AlunoprovaRestartOptions"><code><span class="http-method">options</span> /api/v1/alunoprova/restart</code></a></li>
+  <li><a href="#apiV1AlunoprovaRestartPut"><code><span class="http-method">put</span> /api/v1/alunoprova/restart</code></a></li>
+  </ul>
+  <h4><a href="#AlunoProvaResposta">AlunoProvaResposta</a></h4>
+  <ul>
+  <li><a href="#apiV1AlunoprovaResultadoGet"><code><span class="http-method">get</span> /api/v1/alunoprova/resultado</code></a></li>
+  <li><a href="#apiV1AlunoprovaResultadoOptions"><code><span class="http-method">options</span> /api/v1/alunoprova/resultado</code></a></li>
+  </ul>
+  <h4><a href="#Home">Home</a></h4>
+  <ul>
+  <li><a href="#apiV1HomeCatalogoGet"><code><span class="http-method">get</span> /api/v1/home/catalogo</code></a></li>
+  <li><a href="#apiV1HomeCatalogoOptions"><code><span class="http-method">options</span> /api/v1/home/catalogo</code></a></li>
+  <li><a href="#apiV1HomeHistoricoGet"><code><span class="http-method">get</span> /api/v1/home/historico</code></a></li>
+  <li><a href="#apiV1HomeHistoricoOptions"><code><span class="http-method">options</span> /api/v1/home/historico</code></a></li>
+  <li><a href="#apiV1HomeProvaconfigGet"><code><span class="http-method">get</span> /api/v1/home/provaconfig</code></a></li>
+  <li><a href="#apiV1HomeProvaconfigOptions"><code><span class="http-method">options</span> /api/v1/home/provaconfig</code></a></li>
+  <li><a href="#apiV1HomeProvagabaritoGet"><code><span class="http-method">get</span> /api/v1/home/provagabarito</code></a></li>
+  <li><a href="#apiV1HomeProvagabaritoOptions"><code><span class="http-method">options</span> /api/v1/home/provagabarito</code></a></li>
+  <li><a href="#apiV1HomeUsuarioGet"><code><span class="http-method">get</span> /api/v1/home/usuario</code></a></li>
+  <li><a href="#apiV1HomeUsuarioOptions"><code><span class="http-method">options</span> /api/v1/home/usuario</code></a></li>
+  </ul>
+  <h4><a href="#Prova">Prova</a></h4>
+  <ul>
+  <li><a href="#apiV1ProvaArmazenarparcialprovaOptions"><code><span class="http-method">options</span> /api/v1/prova/armazenarparcialprova</code></a></li>
+  <li><a href="#apiV1ProvaArmazenarparcialprovaPost"><code><span class="http-method">post</span> /api/v1/prova/armazenarparcialprova</code></a></li>
+  <li><a href="#apiV1ProvaCadastrarOptions"><code><span class="http-method">options</span> /api/v1/prova/cadastrar</code></a></li>
+  <li><a href="#apiV1ProvaCadastrarPost"><code><span class="http-method">post</span> /api/v1/prova/cadastrar</code></a></li>
+  <li><a href="#apiV1ProvaExpireOptions"><code><span class="http-method">options</span> /api/v1/prova/expire</code></a></li>
+  <li><a href="#apiV1ProvaExpirePost"><code><span class="http-method">post</span> /api/v1/prova/expire</code></a></li>
+  <li><a href="#apiV1ProvaGet"><code><span class="http-method">get</span> /api/v1/prova</code></a></li>
+  <li><a href="#apiV1ProvaOptions"><code><span class="http-method">options</span> /api/v1/prova</code></a></li>
+  <li><a href="#apiV1ProvaParcialprovaGet"><code><span class="http-method">get</span> /api/v1/prova/parcialprova</code></a></li>
+  <li><a href="#apiV1ProvaParcialprovaOptions"><code><span class="http-method">options</span> /api/v1/prova/parcialprova</code></a></li>
+  <li><a href="#apiV1ProvaRealizarcorrecaoOptions"><code><span class="http-method">options</span> /api/v1/prova/realizarcorrecao</code></a></li>
+  <li><a href="#apiV1ProvaRealizarcorrecaoPost"><code><span class="http-method">post</span> /api/v1/prova/realizarcorrecao</code></a></li>
+  <li><a href="#apiV1ProvaRegistrarinicioOptions"><code><span class="http-method">options</span> /api/v1/prova/registrarinicio</code></a></li>
+  <li><a href="#apiV1ProvaRegistrarinicioPost"><code><span class="http-method">post</span> /api/v1/prova/registrarinicio</code></a></li>
+  <li><a href="#apiV1ProvaRegistrarterminoOptions"><code><span class="http-method">options</span> /api/v1/prova/registrartermino</code></a></li>
+  <li><a href="#apiV1ProvaRegistrarterminoPost"><code><span class="http-method">post</span> /api/v1/prova/registrartermino</code></a></li>
+  </ul>
+  <h4><a href="#ProvaConfig">ProvaConfig</a></h4>
+  <ul>
+  <li><a href="#apiV1ProvaconfigCreateLinkstudentsAssociacaoAutomaticaOptions"><code><span class="http-method">options</span> /api/v1/provaconfig/create/linkstudents/{associacaoAutomatica}</code></a></li>
+  <li><a href="#apiV1ProvaconfigCreateLinkstudentsAssociacaoAutomaticaPost"><code><span class="http-method">post</span> /api/v1/provaconfig/create/linkstudents/{associacaoAutomatica}</code></a></li>
+  <li><a href="#apiV1ProvaconfigDisableOptions"><code><span class="http-method">options</span> /api/v1/provaconfig/disable</code></a></li>
+  <li><a href="#apiV1ProvaconfigDisablePut"><code><span class="http-method">put</span> /api/v1/provaconfig/disable</code></a></li>
+  <li><a href="#apiV1ProvaconfigGet"><code><span class="http-method">get</span> /api/v1/provaconfig</code></a></li>
+  <li><a href="#apiV1ProvaconfigOptions"><code><span class="http-method">options</span> /api/v1/provaconfig</code></a></li>
+  <li><a href="#apiV1ProvaconfigUpdateOptions"><code><span class="http-method">options</span> /api/v1/provaconfig/update</code></a></li>
+  <li><a href="#apiV1ProvaconfigUpdatePut"><code><span class="http-method">put</span> /api/v1/provaconfig/update</code></a></li>
+  </ul>
+  <h4><a href="#Rede">Rede</a></h4>
+  <ul>
+  <li><a href="#apiV1RedeGet"><code><span class="http-method">get</span> /api/v1/rede</code></a></li>
+  <li><a href="#apiV1RedeOptions"><code><span class="http-method">options</span> /api/v1/rede</code></a></li>
+  </ul>
+  <h4><a href="#Report">Report</a></h4>
+  <ul>
+  <li><a href="#apiV1ReportExecucaoprovaGet"><code><span class="http-method">get</span> /api/v1/report/execucaoprova</code></a></li>
+  <li><a href="#apiV1ReportExecucaoprovaOptions"><code><span class="http-method">options</span> /api/v1/report/execucaoprova</code></a></li>
+  </ul>
+  <h4><a href="#Turma">Turma</a></h4>
+  <ul>
+  <li><a href="#apiV1TurmaGet"><code><span class="http-method">get</span> /api/v1/turma</code></a></li>
+  <li><a href="#apiV1TurmaOptions"><code><span class="http-method">options</span> /api/v1/turma</code></a></li>
+  </ul>
+  <h4><a href="#Usuario">Usuario</a></h4>
+  <ul>
+  <li><a href="#apiV1UsuarioOptions"><code><span class="http-method">options</span> /api/v1/usuario</code></a></li>
+  <li><a href="#apiV1UsuarioPost"><code><span class="http-method">post</span> /api/v1/usuario</code></a></li>
+  </ul>
 
-            <div class="col-md-12" style="padding-top: 8%;" >
-              <h3>Gráficos em Barra na Vertical</h3> 
-              <h4>Reagindo a cada Avaliação do Simulado, com as avaliações como conjunto de dados</h4>
-              <canvas id="graficoBarraPorAvaliacao" class="col-md-12"></canvas>
-            </div>
+  <h1><a name="Aluno">Aluno</a></h1>
+  <div class="method"><a name="apiV1AlunoGet"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /api/v1/aluno</code></pre></div>
+    <div class="method-summary">Retorna os dados do aluno logado. (<span class="nickname">apiV1AlunoGet</span>)</div>
+    <div class="method-notes"></div>
 
-            <div id="linkGraficoBarraHorizontal" class="col-md-12" style="padding-top: 10%;">
-                <h3>Gráfico em Barra</h3> <h4>Dificuldade do Simulado visto por Redes</h4>
-                <canvas id="graficoBarraHorizontal" class="col-md-12"></canvas>
-            </div>
 
-            <div id="linkGraficoMisto" class="col-md-12" style="padding-top: 10%;">
-              <h3>Gráfico Misto</h3> <h4>Reações as provas com a média das notas</h4>
-              <canvas id="graficoMistoPorNota" class="col-md-12"></canvas>
-          </div>
 
-          <div id="linkGraficoBolha" class="col-md-12" style="padding-top: 10%;">
-            <h3>Gráfico Bolha</h3> <h4>Reações as provas com a média das notas</h4>
-            <canvas id="graficoBolha" class="col-md-12"></canvas>
-          </div>
 
-          <div class="col-md-12" style="padding-top: 10%;">
-            <h3>Gráfico Bolha</h3> <h4>Nota média nas Provas e quantidade de dificuldades</h4>
-            <canvas id="graficoBolhaDificuldade" class="col-md-12"></canvas>
-          </div>
+    <h3 class="field-label">Request headers</h3>
+    <div class="field-items">
+    </div>  <!-- field-items -->
 
-            <div id="linkGraficoDoughnut" class="col-md-12" style="padding-top: 10%;">
-                <h3>Gráfico Doughnut</h3> <h4>Reações nas Provas</h4>
-                <canvas id="graficoDoughnut" class="col-md-12"></canvas>
-            </div>
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">AnoLetivo (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash;  format: int32</div>      <div class="param">HashAluno (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash;  format: uuid</div>    </div>  <!-- field-items -->
 
-            <div id="linkGraficoPizza" class="col-md-12" style="padding-top: 10%;">
-                <h3>Gráfico Pizza</h3> <h4>Reações nas Provas</h4>
-                <canvas id="graficoPizza" class="col-md-12"></canvas>
-            </div>
 
-            <div id="linkGraficoRadar" class="col-md-12" style="padding-top: 10%;">
-                <h3>Gráfico Radar</h3> <h4>Reações nas avaliações</h4>
-                <canvas id="graficoRadar" class="col-md-12"></canvas>
-            </div>
 
-            <div id="linkGraficoLinha" class="col-md-12" style="padding-top: 10%;">
-                <h3>Gráfico Linha</h3> <h4>Reações aos Simulados por Rede</h4>
-                <canvas id="graficoLinha" class="col-md-12"></canvas>
-            </div>
+    <!--Todo: process Response Object and its headers, schema, examples -->
 
-            <div  class="col-md-12" style="padding-top: 10%;">
-              <h3>Gráfico Linha</h3> <h4>Reações da questão com o número de acertos</h4>
-              <canvas id="graficoScatter" class="col-md-12"></canvas>
-          </div>
 
-          <div  class="col-md-12" style="padding-top: 10%;">
-            <h3>Gráfico Linha</h3> <h4>Reações das questões por avaliação</h4>
-            <canvas id="graficoLinhaEmoji" class="col-md-12"></canvas>
-          </div>            
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>text/plain</code></li>
+      <li><code>application/json</code></li>
+      <li><code>text/json</code></li>
+    </ul>
 
-            <div id="linkGraficoPolar" class="col-md-12" style="padding-top: 10%; padding-bottom: 15%;">
-                <h3>Gráfico polar</h3> <h4>Visão geral das Reações de todos os alunos</h4>
-                <canvas id="graficoPolar" class="col-md-12"></canvas>
-            </div>
-            <div></div>
-        </div>
-    </div>
-    <script>
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Unauthorized
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">403</h4>
+    Forbidden
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">500</h4>
+    Server Error
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiV1AlunoMatriculaGet"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /api/v1/aluno/matricula</code></pre></div>
+    <div class="method-summary">Retorna os dados do aluno pela matrícula. (<span class="nickname">apiV1AlunoMatriculaGet</span>)</div>
+    <div class="method-notes"></div>
 
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-          if (this.readyState == 4 && this.status == 200) {
-            obj = JSON.parse(this.responseText);
 
-            obterDadosBarraHorizontal();
-            obterDadosBarra();
-            obterDadosBarraReacoes();
-            carregarGraficoDoughnut(obj);
-            carregarGraficoPizza(obj);
-            obterDadosRadar();
-            obterDadosPolar();
-            obterDadosBarraPorAvaliacao();
-            obterNotasPorAvaliacao();
-            obterMediaNotasPorReacao();
-            obterMediaNotasPorDificuldade();
-            obterDadosScatter();
-            obterDadosGraficoLinhaEmoji();
-          }
-        };
-        xhttp.open("GET", "https://demo5124476.mockable.io/reacaoSimulado" , true);
-        xhttp.send();
-      </script>
-      </main>
-    </body>
+
+
+    <h3 class="field-label">Request headers</h3>
+    <div class="field-items">
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">AnoLetivo (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash;  format: int32</div>      <div class="param">Matricula (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash;  </div>    </div>  <!-- field-items -->
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>text/plain</code></li>
+      <li><code>application/json</code></li>
+      <li><code>text/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Unauthorized
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">403</h4>
+    Forbidden
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">500</h4>
+    Server Error
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiV1AlunoMatriculaOptions"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="options"><code class="huge"><span class="http-method">options</span> /api/v1/aluno/matricula</code></pre></div>
+    <div class="method-summary">Retorna os dados do aluno pela matrícula. (<span class="nickname">apiV1AlunoMatriculaOptions</span>)</div>
+    <div class="method-notes"></div>
+
+
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    200 response
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiV1AlunoOptions"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="options"><code class="huge"><span class="http-method">options</span> /api/v1/aluno</code></pre></div>
+    <div class="method-summary">Retorna os dados do aluno logado. (<span class="nickname">apiV1AlunoOptions</span>)</div>
+    <div class="method-notes"></div>
+
+
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    200 response
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiV1AlunoSaveOptions"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="options"><code class="huge"><span class="http-method">options</span> /api/v1/aluno/save</code></pre></div>
+    <div class="method-summary">Cria um novo aluno, associando-o a uma turma. Caso o aluno já exista, atualiza o seu nome social com o novo valor e o associa à turma informada. (<span class="nickname">apiV1AlunoSaveOptions</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json-patch+json</code></li>
+      <li><code>application/json</code></li>
+      <li><code>text/json</code></li>
+      <li><code>application/*+json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body <a href="#UsuarioAlunoRequest">UsuarioAlunoRequest</a> (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+                </div>  <!-- field-items -->
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    200 response
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiV1AlunoSavePost"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /api/v1/aluno/save</code></pre></div>
+    <div class="method-summary">Cria um novo aluno, associando-o a uma turma. Caso o aluno já exista, atualiza o seu nome social com o novo valor e o associa à turma informada. (<span class="nickname">apiV1AlunoSavePost</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json-patch+json</code></li>
+      <li><code>application/json</code></li>
+      <li><code>text/json</code></li>
+      <li><code>application/*+json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body <a href="#UsuarioAlunoRequest">UsuarioAlunoRequest</a> (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+                </div>  <!-- field-items -->
+
+    <h3 class="field-label">Request headers</h3>
+    <div class="field-items">
+    </div>  <!-- field-items -->
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>text/plain</code></li>
+      <li><code>application/json</code></li>
+      <li><code>text/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Unauthorized
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">403</h4>
+    Forbidden
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">500</h4>
+    Server Error
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <h1><a name="AlunoProva">AlunoProva</a></h1>
+  <div class="method"><a name="apiV1AlunoprovaOptions"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="options"><code class="huge"><span class="http-method">options</span> /api/v1/alunoprova</code></pre></div>
+    <div class="method-summary">Associa uma lista de alunos a uma prova, informando o id da ProvaConfig (<span class="nickname">apiV1AlunoprovaOptions</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json-patch+json</code></li>
+      <li><code>application/json</code></li>
+      <li><code>text/json</code></li>
+      <li><code>application/*+json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body <a href="#ProvaAlunoRequest">ProvaAlunoRequest</a> (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+                </div>  <!-- field-items -->
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    200 response
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiV1AlunoprovaPost"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /api/v1/alunoprova</code></pre></div>
+    <div class="method-summary">Associa uma lista de alunos a uma prova, informando o id da ProvaConfig (<span class="nickname">apiV1AlunoprovaPost</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json-patch+json</code></li>
+      <li><code>application/json</code></li>
+      <li><code>text/json</code></li>
+      <li><code>application/*+json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body <a href="#ProvaAlunoRequest">ProvaAlunoRequest</a> (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+                </div>  <!-- field-items -->
+
+    <h3 class="field-label">Request headers</h3>
+    <div class="field-items">
+    </div>  <!-- field-items -->
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>text/plain</code></li>
+      <li><code>application/json</code></li>
+      <li><code>text/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Unauthorized
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">403</h4>
+    Forbidden
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">500</h4>
+    Server Error
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiV1AlunoprovaRestartOptions"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="options"><code class="huge"><span class="http-method">options</span> /api/v1/alunoprova/restart</code></pre></div>
+    <div class="method-summary">Reinicia a execução da prova para uma lista de alunos (<span class="nickname">apiV1AlunoprovaRestartOptions</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json-patch+json</code></li>
+      <li><code>application/json</code></li>
+      <li><code>text/json</code></li>
+      <li><code>application/*+json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body <a href="#ProvaAlunoRequest">ProvaAlunoRequest</a> (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+                </div>  <!-- field-items -->
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    200 response
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiV1AlunoprovaRestartPut"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /api/v1/alunoprova/restart</code></pre></div>
+    <div class="method-summary">Reinicia a execução da prova para uma lista de alunos (<span class="nickname">apiV1AlunoprovaRestartPut</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json-patch+json</code></li>
+      <li><code>application/json</code></li>
+      <li><code>text/json</code></li>
+      <li><code>application/*+json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body <a href="#ProvaAlunoRequest">ProvaAlunoRequest</a> (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+                </div>  <!-- field-items -->
+
+    <h3 class="field-label">Request headers</h3>
+    <div class="field-items">
+    </div>  <!-- field-items -->
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>text/plain</code></li>
+      <li><code>application/json</code></li>
+      <li><code>text/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Unauthorized
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">403</h4>
+    Forbidden
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">500</h4>
+    Server Error
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <h1><a name="AlunoProvaResposta">AlunoProvaResposta</a></h1>
+  <div class="method"><a name="apiV1AlunoprovaResultadoGet"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /api/v1/alunoprova/resultado</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">apiV1AlunoprovaResultadoGet</span>)</div>
+    <div class="method-notes"></div>
+
+
+
+
+    <h3 class="field-label">Request headers</h3>
+    <div class="field-items">
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">HashAlunoProva (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash;  format: uuid</div>    </div>  <!-- field-items -->
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>text/plain</code></li>
+      <li><code>application/json</code></li>
+      <li><code>text/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Unauthorized
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">403</h4>
+    Forbidden
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">500</h4>
+    Server Error
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiV1AlunoprovaResultadoOptions"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="options"><code class="huge"><span class="http-method">options</span> /api/v1/alunoprova/resultado</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">apiV1AlunoprovaResultadoOptions</span>)</div>
+    <div class="method-notes"></div>
+
+
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    200 response
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <h1><a name="Home">Home</a></h1>
+  <div class="method"><a name="apiV1HomeCatalogoGet"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /api/v1/home/catalogo</code></pre></div>
+    <div class="method-summary">Retorna o catálogo de provas disponíves e agendadas. (<span class="nickname">apiV1HomeCatalogoGet</span>)</div>
+    <div class="method-notes"></div>
+
+
+
+
+    <h3 class="field-label">Request headers</h3>
+    <div class="field-items">
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">HashAluno (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash;  format: uuid</div>      <div class="param">HashTurma (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash;  format: uuid</div>    </div>  <!-- field-items -->
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>text/plain</code></li>
+      <li><code>application/json</code></li>
+      <li><code>text/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Unauthorized
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">403</h4>
+    Forbidden
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">500</h4>
+    Server Error
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiV1HomeCatalogoOptions"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="options"><code class="huge"><span class="http-method">options</span> /api/v1/home/catalogo</code></pre></div>
+    <div class="method-summary">Retorna o catálogo de provas disponíves e agendadas. (<span class="nickname">apiV1HomeCatalogoOptions</span>)</div>
+    <div class="method-notes"></div>
+
+
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    200 response
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiV1HomeHistoricoGet"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /api/v1/home/historico</code></pre></div>
+    <div class="method-summary">Retorna o histórico de provas encerradas (finalizadas ou perdidas). (<span class="nickname">apiV1HomeHistoricoGet</span>)</div>
+    <div class="method-notes"></div>
+
+
+
+
+    <h3 class="field-label">Request headers</h3>
+    <div class="field-items">
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">HashAluno (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash;  format: uuid</div>      <div class="param">HashTurma (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash;  format: uuid</div>    </div>  <!-- field-items -->
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>text/plain</code></li>
+      <li><code>application/json</code></li>
+      <li><code>text/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Unauthorized
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">403</h4>
+    Forbidden
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">500</h4>
+    Server Error
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiV1HomeHistoricoOptions"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="options"><code class="huge"><span class="http-method">options</span> /api/v1/home/historico</code></pre></div>
+    <div class="method-summary">Retorna o histórico de provas encerradas (finalizadas ou perdidas). (<span class="nickname">apiV1HomeHistoricoOptions</span>)</div>
+    <div class="method-notes"></div>
+
+
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    200 response
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiV1HomeProvaconfigGet"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /api/v1/home/provaconfig</code></pre></div>
+    <div class="method-summary">Retorna as configurações da prova. (<span class="nickname">apiV1HomeProvaconfigGet</span>)</div>
+    <div class="method-notes"></div>
+
+
+
+
+    <h3 class="field-label">Request headers</h3>
+    <div class="field-items">
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">HashAlunoProva (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash;  format: uuid</div>    </div>  <!-- field-items -->
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>text/plain</code></li>
+      <li><code>application/json</code></li>
+      <li><code>text/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Unauthorized
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">403</h4>
+    Forbidden
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">500</h4>
+    Server Error
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiV1HomeProvaconfigOptions"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="options"><code class="huge"><span class="http-method">options</span> /api/v1/home/provaconfig</code></pre></div>
+    <div class="method-summary">Retorna as configurações da prova. (<span class="nickname">apiV1HomeProvaconfigOptions</span>)</div>
+    <div class="method-notes"></div>
+
+
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    200 response
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiV1HomeProvagabaritoGet"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /api/v1/home/provagabarito</code></pre></div>
+    <div class="method-summary">Retorna a prova realizada pelo aluno como o gabarito. (<span class="nickname">apiV1HomeProvagabaritoGet</span>)</div>
+    <div class="method-notes"></div>
+
+
+
+
+    <h3 class="field-label">Request headers</h3>
+    <div class="field-items">
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">HashAlunoProva (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash;  format: uuid</div>    </div>  <!-- field-items -->
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>text/plain</code></li>
+      <li><code>application/json</code></li>
+      <li><code>text/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Unauthorized
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">403</h4>
+    Forbidden
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">500</h4>
+    Server Error
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiV1HomeProvagabaritoOptions"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="options"><code class="huge"><span class="http-method">options</span> /api/v1/home/provagabarito</code></pre></div>
+    <div class="method-summary">Retorna a prova realizada pelo aluno como o gabarito. (<span class="nickname">apiV1HomeProvagabaritoOptions</span>)</div>
+    <div class="method-notes"></div>
+
+
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    200 response
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiV1HomeUsuarioGet"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /api/v1/home/usuario</code></pre></div>
+    <div class="method-summary">Retorna o usuário logado. (<span class="nickname">apiV1HomeUsuarioGet</span>)</div>
+    <div class="method-notes"></div>
+
+
+
+
+    <h3 class="field-label">Request headers</h3>
+    <div class="field-items">
+    </div>  <!-- field-items -->
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>text/plain</code></li>
+      <li><code>application/json</code></li>
+      <li><code>text/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Unauthorized
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">403</h4>
+    Forbidden
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">500</h4>
+    Server Error
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiV1HomeUsuarioOptions"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="options"><code class="huge"><span class="http-method">options</span> /api/v1/home/usuario</code></pre></div>
+    <div class="method-summary">Retorna o usuário logado. (<span class="nickname">apiV1HomeUsuarioOptions</span>)</div>
+    <div class="method-notes"></div>
+
+
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    200 response
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <h1><a name="Prova">Prova</a></h1>
+  <div class="method"><a name="apiV1ProvaArmazenarparcialprovaOptions"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="options"><code class="huge"><span class="http-method">options</span> /api/v1/prova/armazenarparcialprova</code></pre></div>
+    <div class="method-summary">Armazena a parcial de uma prova que está sendo realizada (<span class="nickname">apiV1ProvaArmazenarparcialprovaOptions</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json-patch+json</code></li>
+      <li><code>application/json</code></li>
+      <li><code>text/json</code></li>
+      <li><code>application/*+json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body <a href="#ProvaOnlineRequest">ProvaOnlineRequest</a> (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+                </div>  <!-- field-items -->
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    200 response
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiV1ProvaArmazenarparcialprovaPost"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /api/v1/prova/armazenarparcialprova</code></pre></div>
+    <div class="method-summary">Armazena a parcial de uma prova que está sendo realizada (<span class="nickname">apiV1ProvaArmazenarparcialprovaPost</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json-patch+json</code></li>
+      <li><code>application/json</code></li>
+      <li><code>text/json</code></li>
+      <li><code>application/*+json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body <a href="#ProvaOnlineRequest">ProvaOnlineRequest</a> (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+                </div>  <!-- field-items -->
+
+    <h3 class="field-label">Request headers</h3>
+    <div class="field-items">
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">HashAlunoProva (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash;  format: uuid</div>    </div>  <!-- field-items -->
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>text/plain</code></li>
+      <li><code>application/json</code></li>
+      <li><code>text/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Unauthorized
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">403</h4>
+    Forbidden
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">500</h4>
+    Server Error
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiV1ProvaCadastrarOptions"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="options"><code class="huge"><span class="http-method">options</span> /api/v1/prova/cadastrar</code></pre></div>
+    <div class="method-summary">Cria ou atualiza uma prova no sistema de Avaliações da Luppa. (<span class="nickname">apiV1ProvaCadastrarOptions</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json-patch+json</code></li>
+      <li><code>application/json</code></li>
+      <li><code>text/json</code></li>
+      <li><code>application/*+json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body <a href="#ProvaExternaRequest">ProvaExternaRequest</a> (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+                </div>  <!-- field-items -->
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    200 response
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiV1ProvaCadastrarPost"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /api/v1/prova/cadastrar</code></pre></div>
+    <div class="method-summary">Cria ou atualiza uma prova no sistema de Avaliações da Luppa. (<span class="nickname">apiV1ProvaCadastrarPost</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json-patch+json</code></li>
+      <li><code>application/json</code></li>
+      <li><code>text/json</code></li>
+      <li><code>application/*+json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body <a href="#ProvaExternaRequest">ProvaExternaRequest</a> (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+                </div>  <!-- field-items -->
+
+    <h3 class="field-label">Request headers</h3>
+    <div class="field-items">
+    </div>  <!-- field-items -->
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>text/plain</code></li>
+      <li><code>application/json</code></li>
+      <li><code>text/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Unauthorized
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">403</h4>
+    Forbidden
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">500</h4>
+    Server Error
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiV1ProvaExpireOptions"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="options"><code class="huge"><span class="http-method">options</span> /api/v1/prova/expire</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">apiV1ProvaExpireOptions</span>)</div>
+    <div class="method-notes"></div>
+
+
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    200 response
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiV1ProvaExpirePost"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /api/v1/prova/expire</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">apiV1ProvaExpirePost</span>)</div>
+    <div class="method-notes"></div>
+
+
+
+
+    <h3 class="field-label">Request headers</h3>
+    <div class="field-items">
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">hashProva (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash;  format: uuid</div>    </div>  <!-- field-items -->
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiV1ProvaGet"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /api/v1/prova</code></pre></div>
+    <div class="method-summary">Retorna a prova selecionada a realizar. (<span class="nickname">apiV1ProvaGet</span>)</div>
+    <div class="method-notes"></div>
+
+
+
+
+    <h3 class="field-label">Request headers</h3>
+    <div class="field-items">
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">HashAlunoProva (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash;  format: uuid</div>    </div>  <!-- field-items -->
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>text/plain</code></li>
+      <li><code>application/json</code></li>
+      <li><code>text/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Unauthorized
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">403</h4>
+    Forbidden
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">500</h4>
+    Server Error
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiV1ProvaOptions"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="options"><code class="huge"><span class="http-method">options</span> /api/v1/prova</code></pre></div>
+    <div class="method-summary">Retorna a prova selecionada a realizar. (<span class="nickname">apiV1ProvaOptions</span>)</div>
+    <div class="method-notes"></div>
+
+
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    200 response
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiV1ProvaParcialprovaGet"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /api/v1/prova/parcialprova</code></pre></div>
+    <div class="method-summary">Retorna as parcias de uma prova armazenada (<span class="nickname">apiV1ProvaParcialprovaGet</span>)</div>
+    <div class="method-notes"></div>
+
+
+
+
+    <h3 class="field-label">Request headers</h3>
+    <div class="field-items">
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">HashAlunoProva (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash;  format: uuid</div>    </div>  <!-- field-items -->
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>text/plain</code></li>
+      <li><code>application/json</code></li>
+      <li><code>text/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Unauthorized
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">403</h4>
+    Forbidden
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">500</h4>
+    Server Error
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiV1ProvaParcialprovaOptions"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="options"><code class="huge"><span class="http-method">options</span> /api/v1/prova/parcialprova</code></pre></div>
+    <div class="method-summary">Retorna as parcias de uma prova armazenada (<span class="nickname">apiV1ProvaParcialprovaOptions</span>)</div>
+    <div class="method-notes"></div>
+
+
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    200 response
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiV1ProvaRealizarcorrecaoOptions"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="options"><code class="huge"><span class="http-method">options</span> /api/v1/prova/realizarcorrecao</code></pre></div>
+    <div class="method-summary">Realizar a correção parcial da prova do aluno. O retorno deste metódo é o resutado do aluno na prova. (<span class="nickname">apiV1ProvaRealizarcorrecaoOptions</span>)</div>
+    <div class="method-notes"></div>
+
+
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    200 response
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiV1ProvaRealizarcorrecaoPost"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /api/v1/prova/realizarcorrecao</code></pre></div>
+    <div class="method-summary">Realizar a correção parcial da prova do aluno. O retorno deste metódo é o resutado do aluno na prova. (<span class="nickname">apiV1ProvaRealizarcorrecaoPost</span>)</div>
+    <div class="method-notes"></div>
+
+
+
+
+    <h3 class="field-label">Request headers</h3>
+    <div class="field-items">
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">HashAlunoProva (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash;  format: uuid</div>    </div>  <!-- field-items -->
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>text/plain</code></li>
+      <li><code>application/json</code></li>
+      <li><code>text/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Unauthorized
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">403</h4>
+    Forbidden
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">500</h4>
+    Server Error
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiV1ProvaRegistrarinicioOptions"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="options"><code class="huge"><span class="http-method">options</span> /api/v1/prova/registrarinicio</code></pre></div>
+    <div class="method-summary">Registra o início da execução da prova pelo aluno. (<span class="nickname">apiV1ProvaRegistrarinicioOptions</span>)</div>
+    <div class="method-notes"></div>
+
+
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    200 response
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiV1ProvaRegistrarinicioPost"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /api/v1/prova/registrarinicio</code></pre></div>
+    <div class="method-summary">Registra o início da execução da prova pelo aluno. (<span class="nickname">apiV1ProvaRegistrarinicioPost</span>)</div>
+    <div class="method-notes"></div>
+
+
+
+
+    <h3 class="field-label">Request headers</h3>
+    <div class="field-items">
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">HashAlunoProva (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash;  format: uuid</div>    </div>  <!-- field-items -->
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>text/plain</code></li>
+      <li><code>application/json</code></li>
+      <li><code>text/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Unauthorized
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">403</h4>
+    Forbidden
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">500</h4>
+    Server Error
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiV1ProvaRegistrarterminoOptions"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="options"><code class="huge"><span class="http-method">options</span> /api/v1/prova/registrartermino</code></pre></div>
+    <div class="method-summary">Registra o término da execução da prova pelo aluno. Salva respostas e diagnóstico da prova. (<span class="nickname">apiV1ProvaRegistrarterminoOptions</span>)</div>
+    <div class="method-notes"></div>
+
+
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    200 response
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiV1ProvaRegistrarterminoPost"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /api/v1/prova/registrartermino</code></pre></div>
+    <div class="method-summary">Registra o término da execução da prova pelo aluno. Salva respostas e diagnóstico da prova. (<span class="nickname">apiV1ProvaRegistrarterminoPost</span>)</div>
+    <div class="method-notes"></div>
+
+
+
+
+    <h3 class="field-label">Request headers</h3>
+    <div class="field-items">
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">HashAlunoProva (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash;  format: uuid</div>    </div>  <!-- field-items -->
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>text/plain</code></li>
+      <li><code>application/json</code></li>
+      <li><code>text/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Unauthorized
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">403</h4>
+    Forbidden
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">500</h4>
+    Server Error
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <h1><a name="ProvaConfig">ProvaConfig</a></h1>
+  <div class="method"><a name="apiV1ProvaconfigCreateLinkstudentsAssociacaoAutomaticaOptions"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="options"><code class="huge"><span class="http-method">options</span> /api/v1/provaconfig/create/linkstudents/{associacaoAutomatica}</code></pre></div>
+    <div class="method-summary">Realiza a inclusão de um novo provaConfig (Configuração de Prova) seguindo os parâmetros informados.
+Caso deseje criar um AlunoProva para cada aluno da turma, informe o parâmetro associacaoAutomatica como true. (<span class="nickname">apiV1ProvaconfigCreateLinkstudentsAssociacaoAutomaticaOptions</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json-patch+json</code></li>
+      <li><code>application/json</code></li>
+      <li><code>text/json</code></li>
+      <li><code>application/*+json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body <a href="#CreateProvaConfigRequest">CreateProvaConfigRequest</a> (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+                </div>  <!-- field-items -->
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    200 response
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiV1ProvaconfigCreateLinkstudentsAssociacaoAutomaticaPost"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /api/v1/provaconfig/create/linkstudents/{associacaoAutomatica}</code></pre></div>
+    <div class="method-summary">Realiza a inclusão de um novo provaConfig (Configuração de Prova) seguindo os parâmetros informados.
+Caso deseje criar um AlunoProva para cada aluno da turma, informe o parâmetro associacaoAutomatica como true. (<span class="nickname">apiV1ProvaconfigCreateLinkstudentsAssociacaoAutomaticaPost</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">associacaoAutomatica (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Associar os alunos da Turma ao ProvaConfig </div>    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json-patch+json</code></li>
+      <li><code>application/json</code></li>
+      <li><code>text/json</code></li>
+      <li><code>application/*+json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body <a href="#CreateProvaConfigRequest">CreateProvaConfigRequest</a> (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+                </div>  <!-- field-items -->
+
+    <h3 class="field-label">Request headers</h3>
+    <div class="field-items">
+    </div>  <!-- field-items -->
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>text/plain</code></li>
+      <li><code>application/json</code></li>
+      <li><code>text/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Unauthorized
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">403</h4>
+    Forbidden
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">500</h4>
+    Server Error
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiV1ProvaconfigDisableOptions"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="options"><code class="huge"><span class="http-method">options</span> /api/v1/provaconfig/disable</code></pre></div>
+    <div class="method-summary">O endpoint deve receber o hash prova e o hash da turma para a qual o config será inativado. (<span class="nickname">apiV1ProvaconfigDisableOptions</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json-patch+json</code></li>
+      <li><code>application/json</code></li>
+      <li><code>text/json</code></li>
+      <li><code>application/*+json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body <a href="#DisableProvaConfigRequest">DisableProvaConfigRequest</a> (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+                </div>  <!-- field-items -->
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    200 response
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiV1ProvaconfigDisablePut"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /api/v1/provaconfig/disable</code></pre></div>
+    <div class="method-summary">O endpoint deve receber o hash prova e o hash da turma para a qual o config será inativado. (<span class="nickname">apiV1ProvaconfigDisablePut</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json-patch+json</code></li>
+      <li><code>application/json</code></li>
+      <li><code>text/json</code></li>
+      <li><code>application/*+json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body <a href="#DisableProvaConfigRequest">DisableProvaConfigRequest</a> (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+                </div>  <!-- field-items -->
+
+    <h3 class="field-label">Request headers</h3>
+    <div class="field-items">
+    </div>  <!-- field-items -->
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>text/plain</code></li>
+      <li><code>application/json</code></li>
+      <li><code>text/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Unauthorized
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">403</h4>
+    Forbidden
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">500</h4>
+    Server Error
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiV1ProvaconfigGet"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /api/v1/provaconfig</code></pre></div>
+    <div class="method-summary">Retorna as configurações da prova a partir do filtro informado (<span class="nickname">apiV1ProvaconfigGet</span>)</div>
+    <div class="method-notes"></div>
+
+
+
+
+    <h3 class="field-label">Request headers</h3>
+    <div class="field-items">
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">AnoLetivo (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash;  format: int32</div>      <div class="param">Nome (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash;  </div>      <div class="param">DataAplicacao (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash;  format: date-time</div>    </div>  <!-- field-items -->
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>text/plain</code></li>
+      <li><code>application/json</code></li>
+      <li><code>text/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Unauthorized
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">403</h4>
+    Forbidden
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">500</h4>
+    Server Error
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiV1ProvaconfigOptions"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="options"><code class="huge"><span class="http-method">options</span> /api/v1/provaconfig</code></pre></div>
+    <div class="method-summary">Retorna as configurações da prova a partir do filtro informado (<span class="nickname">apiV1ProvaconfigOptions</span>)</div>
+    <div class="method-notes"></div>
+
+
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    200 response
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiV1ProvaconfigUpdateOptions"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="options"><code class="huge"><span class="http-method">options</span> /api/v1/provaconfig/update</code></pre></div>
+    <div class="method-summary">Altera a Data de Aplicação da avaliação informada. (<span class="nickname">apiV1ProvaconfigUpdateOptions</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json-patch+json</code></li>
+      <li><code>application/json</code></li>
+      <li><code>text/json</code></li>
+      <li><code>application/*+json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body <a href="#UpdateProvaConfigRequest">UpdateProvaConfigRequest</a> (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+                </div>  <!-- field-items -->
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    200 response
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiV1ProvaconfigUpdatePut"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /api/v1/provaconfig/update</code></pre></div>
+    <div class="method-summary">Altera a Data de Aplicação da avaliação informada. (<span class="nickname">apiV1ProvaconfigUpdatePut</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json-patch+json</code></li>
+      <li><code>application/json</code></li>
+      <li><code>text/json</code></li>
+      <li><code>application/*+json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body <a href="#UpdateProvaConfigRequest">UpdateProvaConfigRequest</a> (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+                </div>  <!-- field-items -->
+
+    <h3 class="field-label">Request headers</h3>
+    <div class="field-items">
+    </div>  <!-- field-items -->
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>text/plain</code></li>
+      <li><code>application/json</code></li>
+      <li><code>text/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Unauthorized
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">403</h4>
+    Forbidden
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">500</h4>
+    Server Error
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <h1><a name="Rede">Rede</a></h1>
+  <div class="method"><a name="apiV1RedeGet"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /api/v1/rede</code></pre></div>
+    <div class="method-summary">Retorna informações da Rede informada no parametro. (<span class="nickname">apiV1RedeGet</span>)</div>
+    <div class="method-notes"></div>
+
+
+
+
+    <h3 class="field-label">Request headers</h3>
+    <div class="field-items">
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">nome (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Nome da Rede </div>      <div class="param">anoLetivo (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Ano Letivo format: int32</div>    </div>  <!-- field-items -->
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>text/plain</code></li>
+      <li><code>application/json</code></li>
+      <li><code>text/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Unauthorized
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">403</h4>
+    Forbidden
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">500</h4>
+    Server Error
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiV1RedeOptions"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="options"><code class="huge"><span class="http-method">options</span> /api/v1/rede</code></pre></div>
+    <div class="method-summary">Retorna informações da Rede informada no parametro. (<span class="nickname">apiV1RedeOptions</span>)</div>
+    <div class="method-notes"></div>
+
+
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    200 response
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <h1><a name="Report">Report</a></h1>
+  <div class="method"><a name="apiV1ReportExecucaoprovaGet"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /api/v1/report/execucaoprova</code></pre></div>
+    <div class="method-summary">Retorna um objeto utilizado no relatório com as respostas dos alunos. (<span class="nickname">apiV1ReportExecucaoprovaGet</span>)</div>
+    <div class="method-notes">Caso seja informado o RA, será retornada as respostas apenas do aluno informado.
+Caso contrário, será retornada todas as respostas de todos que concluíram a provaConfig informada.</div>
+
+
+
+
+    <h3 class="field-label">Request headers</h3>
+    <div class="field-items">
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">provaConfigId (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash;  format: int32</div>      <div class="param">ra (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Matrícula ou Registro Acadêmico(opcional) </div>    </div>  <!-- field-items -->
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>text/plain</code></li>
+      <li><code>application/json</code></li>
+      <li><code>text/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Unauthorized
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">403</h4>
+    Forbidden
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">500</h4>
+    Server Error
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiV1ReportExecucaoprovaOptions"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="options"><code class="huge"><span class="http-method">options</span> /api/v1/report/execucaoprova</code></pre></div>
+    <div class="method-summary">Retorna um objeto utilizado no relatório com as respostas dos alunos. (<span class="nickname">apiV1ReportExecucaoprovaOptions</span>)</div>
+    <div class="method-notes">Caso seja informado o RA, será retornada as respostas apenas do aluno informado.
+Caso contrário, será retornada todas as respostas de todos que concluíram a provaConfig informada.</div>
+
+
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    200 response
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <h1><a name="Turma">Turma</a></h1>
+  <div class="method"><a name="apiV1TurmaGet"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /api/v1/turma</code></pre></div>
+    <div class="method-summary">Retorna a lista de turmas baseado nos parametros informados na consulta. (<span class="nickname">apiV1TurmaGet</span>)</div>
+    <div class="method-notes"></div>
+
+
+
+
+    <h3 class="field-label">Request headers</h3>
+    <div class="field-items">
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">nome (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Nome da Rede </div>      <div class="param">idUnidade (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Id da Unidade format: int32</div>      <div class="param">idRede (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Id da Rede format: int32</div>      <div class="param">anoLetivo (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Ano Letivo format: int32</div>    </div>  <!-- field-items -->
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>text/plain</code></li>
+      <li><code>application/json</code></li>
+      <li><code>text/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Unauthorized
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">403</h4>
+    Forbidden
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">500</h4>
+    Server Error
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiV1TurmaOptions"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="options"><code class="huge"><span class="http-method">options</span> /api/v1/turma</code></pre></div>
+    <div class="method-summary">Retorna a lista de turmas baseado nos parametros informados na consulta. (<span class="nickname">apiV1TurmaOptions</span>)</div>
+    <div class="method-notes"></div>
+
+
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    200 response
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <h1><a name="Usuario">Usuario</a></h1>
+  <div class="method"><a name="apiV1UsuarioOptions"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="options"><code class="huge"><span class="http-method">options</span> /api/v1/usuario</code></pre></div>
+    <div class="method-summary">Cria usuários para autenticação, limitado a 10 registros por chamada (<span class="nickname">apiV1UsuarioOptions</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json-patch+json</code></li>
+      <li><code>application/json</code></li>
+      <li><code>text/json</code></li>
+      <li><code>application/*+json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body <a href="#UsuarioCreateRequest">UsuarioCreateRequest</a> (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+                </div>  <!-- field-items -->
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    200 response
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="apiV1UsuarioPost"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /api/v1/usuario</code></pre></div>
+    <div class="method-summary">Cria usuários para autenticação, limitado a 10 registros por chamada (<span class="nickname">apiV1UsuarioPost</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json-patch+json</code></li>
+      <li><code>application/json</code></li>
+      <li><code>text/json</code></li>
+      <li><code>application/*+json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body <a href="#UsuarioCreateRequest">UsuarioCreateRequest</a> (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+                </div>  <!-- field-items -->
+
+    <h3 class="field-label">Request headers</h3>
+    <div class="field-items">
+    </div>  <!-- field-items -->
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>text/plain</code></li>
+      <li><code>application/json</code></li>
+      <li><code>text/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Unauthorized
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">403</h4>
+    Forbidden
+        <a href="#ProblemDetails">ProblemDetails</a>
+    <h4 class="field-label">500</h4>
+    Server Error
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+
+  <h2><a name="__Models">Models</a></h2>
+  [ Jump to <a href="#__Methods">Methods</a> ]
+
+  <h3>Table of Contents</h3>
+  <ol>
+    <li><a href="#AlternativaQuestao"><code>AlternativaQuestao</code></a></li>
+    <li><a href="#Assunto"><code>Assunto</code></a></li>
+    <li><a href="#Avaliacao"><code>Avaliacao</code></a></li>
+    <li><a href="#ConteudoProvaOnlineRequest"><code>ConteudoProvaOnlineRequest</code></a></li>
+    <li><a href="#CreateProvaConfigRequest"><code>CreateProvaConfigRequest</code></a></li>
+    <li><a href="#DisableProvaConfigRequest"><code>DisableProvaConfigRequest</code></a></li>
+    <li><a href="#Disciplina"><code>Disciplina</code></a></li>
+    <li><a href="#ProblemDetails"><code>ProblemDetails</code></a></li>
+    <li><a href="#ProvaAlunoRequest"><code>ProvaAlunoRequest</code></a></li>
+    <li><a href="#ProvaExternaRequest"><code>ProvaExternaRequest</code></a></li>
+    <li><a href="#ProvaOnlineRequest"><code>ProvaOnlineRequest</code></a></li>
+    <li><a href="#Questao"><code>Questao</code></a></li>
+    <li><a href="#UpdateProvaConfigRequest"><code>UpdateProvaConfigRequest</code></a></li>
+    <li><a href="#UsuarioAlunoRequest"><code>UsuarioAlunoRequest</code></a></li>
+    <li><a href="#UsuarioCreateRequest"><code>UsuarioCreateRequest</code></a></li>
+  </ol>
+
+  <div class="model">
+    <h3><a name="AlternativaQuestao"><code>AlternativaQuestao</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">identificadorQuestao (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">opcaoCorrecao (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span>  </div>
+<div class="param">textoOpcao (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">ativo (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="Assunto"><code>Assunto</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">hash (optional)</div><div class="param-desc"><span class="param-type"><a href="#UUID">UUID</a></span>  format: uuid</div>
+<div class="param">nome (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">hashDisciplina (optional)</div><div class="param-desc"><span class="param-type"><a href="#UUID">UUID</a></span>  format: uuid</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="Avaliacao"><code>Avaliacao</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">ativo (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span>  </div>
+<div class="param">nome (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">hash (optional)</div><div class="param-desc"><span class="param-type"><a href="#UUID">UUID</a></span>  format: uuid</div>
+<div class="param">disciplina (optional)</div><div class="param-desc"><span class="param-type"><a href="#Disciplina">Disciplina</a></span>  </div>
+<div class="param">questoes (optional)</div><div class="param-desc"><span class="param-type"><a href="#Questao">array[Questao]</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="ConteudoProvaOnlineRequest"><code>ConteudoProvaOnlineRequest</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">hashQuestao (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">respostaId (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+<div class="param">tempoNaQuestao (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="CreateProvaConfigRequest"><code>CreateProvaConfigRequest</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">hashRede (optional)</div><div class="param-desc"><span class="param-type"><a href="#UUID">UUID</a></span>  format: uuid</div>
+<div class="param">hashEscola (optional)</div><div class="param-desc"><span class="param-type"><a href="#UUID">UUID</a></span>  format: uuid</div>
+<div class="param">hashSerie (optional)</div><div class="param-desc"><span class="param-type"><a href="#UUID">UUID</a></span>  format: uuid</div>
+<div class="param">hashTurma (optional)</div><div class="param-desc"><span class="param-type"><a href="#UUID">UUID</a></span>  format: uuid</div>
+<div class="param">anoLetivo (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+<div class="param">nomeProva (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">hashProva (optional)</div><div class="param-desc"><span class="param-type"><a href="#UUID">UUID</a></span>  format: uuid</div>
+<div class="param">chamada (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+<div class="param">dataAplicacaoInicio (optional)</div><div class="param-desc"><span class="param-type"><a href="#DateTime">Date</a></span>  format: date-time</div>
+<div class="param">dataAplicacaoTermino (optional)</div><div class="param-desc"><span class="param-type"><a href="#DateTime">Date</a></span>  format: date-time</div>
+<div class="param">dataCorrecaoInicio (optional)</div><div class="param-desc"><span class="param-type"><a href="#DateTime">Date</a></span>  format: date-time</div>
+<div class="param">dataCorrecaoTermino (optional)</div><div class="param-desc"><span class="param-type"><a href="#DateTime">Date</a></span>  format: date-time</div>
+<div class="param">horaInicioAplicacao (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">horaFimAplicacao (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">duracao (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">tipoProva (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">possuiGabaritoSomatorio (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span>  </div>
+<div class="param">ehBolsao (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span>  </div>
+<div class="param">ehSimulado (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span>  </div>
+<div class="param">nivelSegurancaId (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+<div class="param">divulgacaoResultadoId (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+<div class="param">statusAvaliacaoId (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+<div class="param">tipoAvaliacaoId (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+<div class="param">ativo (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="DisableProvaConfigRequest"><code>DisableProvaConfigRequest</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">hashTurma (optional)</div><div class="param-desc"><span class="param-type"><a href="#UUID">UUID</a></span>  format: uuid</div>
+<div class="param">hashProva (optional)</div><div class="param-desc"><span class="param-type"><a href="#UUID">UUID</a></span>  format: uuid</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="Disciplina"><code>Disciplina</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">hash (optional)</div><div class="param-desc"><span class="param-type"><a href="#UUID">UUID</a></span>  format: uuid</div>
+<div class="param">nome (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="ProblemDetails"><code>ProblemDetails</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+          </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="ProvaAlunoRequest"><code>ProvaAlunoRequest</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">provaConfigId (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+<div class="param">matriculas (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="ProvaExternaRequest"><code>ProvaExternaRequest</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">nome (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">hash (optional)</div><div class="param-desc"><span class="param-type"><a href="#UUID">UUID</a></span>  format: uuid</div>
+<div class="param">hashOrigem (optional)</div><div class="param-desc"><span class="param-type"><a href="#UUID">UUID</a></span>  format: uuid</div>
+<div class="param">codigoProva (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">avaliacoes (optional)</div><div class="param-desc"><span class="param-type"><a href="#Avaliacao">array[Avaliacao]</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="ProvaOnlineRequest"><code>ProvaOnlineRequest</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">hashAlunoProva (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">createOn (optional)</div><div class="param-desc"><span class="param-type"><a href="#DateTime">Date</a></span>  format: date-time</div>
+<div class="param">respostasConfirmadas (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">array[Integer]</a></span>  format: int32</div>
+<div class="param">marcadasParaRevisao (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">array[Integer]</a></span>  format: int32</div>
+<div class="param">conteudosProvaOnline (optional)</div><div class="param-desc"><span class="param-type"><a href="#ConteudoProvaOnlineRequest">array[ConteudoProvaOnlineRequest]</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="Questao"><code>Questao</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">hash (optional)</div><div class="param-desc"><span class="param-type"><a href="#UUID">UUID</a></span>  format: uuid</div>
+<div class="param">hashTipoQuestao (optional)</div><div class="param-desc"><span class="param-type"><a href="#UUID">UUID</a></span>  format: uuid</div>
+<div class="param">assunto (optional)</div><div class="param-desc"><span class="param-type"><a href="#Assunto">Assunto</a></span>  </div>
+<div class="param">nivelQuestao (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">textoEnunciado (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">textoGabarito (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">valorQuestao (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+<div class="param">alternativasQuestao (optional)</div><div class="param-desc"><span class="param-type"><a href="#AlternativaQuestao">array[AlternativaQuestao]</a></span>  </div>
+<div class="param">ativo (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="UpdateProvaConfigRequest"><code>UpdateProvaConfigRequest</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">provaConfigId (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+<div class="param">dataAplicacaoInicio (optional)</div><div class="param-desc"><span class="param-type"><a href="#DateTime">Date</a></span>  format: date-time</div>
+<div class="param">dataAplicacaoTermino (optional)</div><div class="param-desc"><span class="param-type"><a href="#DateTime">Date</a></span>  format: date-time</div>
+<div class="param">dataCorrecaoInicio (optional)</div><div class="param-desc"><span class="param-type"><a href="#DateTime">Date</a></span>  format: date-time</div>
+<div class="param">dataCorrecaoTermino (optional)</div><div class="param-desc"><span class="param-type"><a href="#DateTime">Date</a></span>  format: date-time</div>
+<div class="param">horaInicioAplicacao (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">horaFimAplicacao (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">duracao (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="UsuarioAlunoRequest"><code>UsuarioAlunoRequest</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">email (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">nome (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">matricula (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">idTurma (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+<div class="param">idSexo (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="UsuarioCreateRequest"><code>UsuarioCreateRequest</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">email (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">nome (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">matricula (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  </body>
 </html>
